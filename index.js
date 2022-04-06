@@ -1,5 +1,6 @@
 const express = require("express");
-const moment = require("moment");
+// const moment = require("moment");
+var moment = require('moment-timezone');
 const app = express();
 app.use(express.json());
 
@@ -66,7 +67,7 @@ app.get("/info", (request, response) => {
       persons.length +
       " people" +
       "<br/>" +
-      moment().format("dddd, MMMM Do YYYY, h:mm:ss a")
+      moment().tz('America/New_York').toString()
   );
 });
 

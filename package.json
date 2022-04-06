@@ -20,7 +20,8 @@
   "homepage": "https://github.com/drewbdoo/node_js_April_6#readme",
   "dependencies": {
     "express": "^4.17.3",
-    "moment": "^2.29.2"
+    "moment": "^2.29.2",
+    "moment-timezone": "^0.5.34"
   },
   "devDependencies": {
     "nodemon": "^2.0.15"

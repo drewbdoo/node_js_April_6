@@ -1,0 +1,28 @@
+{
+  "name": "backend",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/drewbdoo/node_js_April_6.git"
+  },
+  "author": "Drew Bowers",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/drewbdoo/node_js_April_6/issues"
+  },
+  "homepage": "https://github.com/drewbdoo/node_js_April_6#readme",
+  "dependencies": {
+    "express": "^4.17.3",
+    "moment": "^2.29.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}

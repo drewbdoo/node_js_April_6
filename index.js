@@ -1,8 +1,9 @@
 const express = require("express");
-// const moment = require("moment");
-var moment = require('moment-timezone');
+var moment = require("moment-timezone");
 const app = express();
 app.use(express.json());
+const morgan = require("morgan");
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms'));
 
 let notes = [
   {
@@ -48,6 +49,17 @@ let persons = [
   },
 ];
 
+const requestLogger = (request, response, next) => {
+  console.log("Method:", request.method);
+  console.log("Path:  ", request.path);
+  console.log("Body:  ", request.body);
+  console.log("---");
+  next();
+};
+
+
+app.use(requestLogger);
+
 app.get("/", (request, response) => {
   response.send("<h1>Hello World!</h1>");
 });
@@ -64,10 +76,10 @@ app.get("/api/persons", (request, response) => {
 app.get("/info", (request, response) => {
   response.send(
     "Phonebook has info for " +
-      persons.length +
-      " people" +
-      "<br/>" +
-      moment().tz('America/New_York').toString()
+    persons.length +
+    " people" +
+    "<br/>" +
+    moment().tz("America/New_York").toString()
   );
 });
 
@@ -89,8 +101,7 @@ app.delete("/api/persons/:id", (request, response) => {
 });
 
 const generatePersonId = (min, max) => {
-    
-  const maxId = Math.round(Math.random() * (max-min)) + min;
+  const maxId = Math.round(Math.random() * (max - min)) + min;
   return maxId;
 };
 
@@ -102,7 +113,7 @@ app.post("/api/persons", (request, response) => {
       error: "What are you trying to do, submitting that without a number?",
     });
   }
-const arrNames = persons.map(person => person.name);
+  const arrNames = persons.map((person) => person.name);
 
   if (arrNames.includes(body.name)) {
     return response.status(400).json({
@@ -113,7 +124,7 @@ const arrNames = persons.map(person => person.name);
   const person = {
     name: body.name,
     number: body.number,
-    id: generatePersonId(1,99999),
+    id: generatePersonId(1, 99999),
   };
 
   persons = persons.concat(person);
@@ -121,7 +132,7 @@ const arrNames = persons.map(person => person.name);
   response.json(person);
 });
 
-//End of Phonebook exercise
+//End of Phonebook 1 exercise
 
 app.get("/api/notes/:id", (request, response) => {
   const id = Number(request.params.id);
@@ -165,6 +176,26 @@ app.post("/api/notes", (request, response) => {
 
   response.json(note);
 });
+
+//Phonebook part 2
+
+morgan.token('newPerson', function (request, response) {
+  if (request.method === 'POST') {
+    return JSON.stringify(request.body)
+  } else {
+    return null
+  }
+});
+
+
+
+
+
+const unknownEndpoint = (request, response) => {
+  response.status(404).send({ error: 'unknown endpoint' })
+}
+
+app.use(unknownEndpoint)
 
 const PORT = 3001;
 app.listen(PORT, () => {
